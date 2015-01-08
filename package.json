@@ -1,0 +1,45 @@
+{
+  "name": "rfc2047",
+  "version": "1.0.0",
+  "description": "Encode and decode rfc2047 (MIME encoded words)",
+  "main": "lib/rfc2047.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "lint": "jshint .",
+    "test": "mocha && npm run lint",
+    "travis": "npm test && npm run coverage && <coverage/lcov.info coveralls",
+    "coverage": "NODE_ENV=development istanbul cover _mocha -- --reporter dot && echo google-chrome coverage/lcov-report/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/One-com/rfc2047.git"
+  },
+  "keywords": [
+    "rfc2047",
+    "mime",
+    "email",
+    "header",
+    "subject",
+    "utf-8",
+    "non-ascii",
+    "iconv"
+  ],
+  "author": "Andreas Lind <andreas@one.com>",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/One-com/rfc2047/issues"
+  },
+  "homepage": "https://github.com/One-com/rfc2047",
+  "devDependencies": {
+    "coveralls": "2.11.2",
+    "istanbul": "0.3.5",
+    "jshint": "2.5.11",
+    "mocha": "2.1.0",
+    "unexpected": "5.1.6"
+  },
+  "dependencies": {
+    "iconv-lite": "0.4.5"
+  }
+}
