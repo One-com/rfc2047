@@ -93,6 +93,10 @@ describe('rfc2047', function () {
         it('should handle a tab character with spaces around it', function () {
             expect('bar \t foo', 'to encode to', 'bar   foo');
         });
+
+        it('should not split a backslash from the doublequote it is escaping', function () {
+            expect('"Öland\\""', 'to encode to', '"=?iso-8859-1?Q?=D6land?=\\""');
+        });
     });
 
     describe('#decode()', function () {
