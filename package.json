@@ -1,6 +1,6 @@
 {
   "name": "rfc2047",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "Encode and decode rfc2047 (MIME encoded words)",
   "main": "lib/rfc2047.js",
   "directories": {
