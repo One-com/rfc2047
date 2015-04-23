@@ -30,7 +30,7 @@ describe('rfc2047', function () {
         });
 
         it('should handle a multi-word string where the middle word has to be encoded', function () {
-            expect('Andreas Lindø <andreas@one.com>', 'to encode back and forth to', 'Andreas =?iso-8859-1?Q?Lind=F8?= <andreas@one.com>');
+            expect('Andreas Lindø <andreas@one.com>', 'to encode back and forth to', 'Andreas =?utf-8?Q?Lind=C3=B8?= <andreas@one.com>');
         });
 
         it('should use an UTF-8 encoded word when a character is not in iso-8859-1', function () {
@@ -38,8 +38,8 @@ describe('rfc2047', function () {
         });
 
         it('should handle two neighbouring words that have to be encoded', function () {
-            expect('¡Hola, señor!', 'to encode back and forth to', '=?iso-8859-1?Q?=A1Hola=2C?= =?iso-8859-1?Q?_se=F1or!?=');
-            expect('På lördag', 'to encode back and forth to', '=?iso-8859-1?Q?P=E5?= =?iso-8859-1?Q?_l=F6rdag?=');
+            expect('¡Hola, señor!', 'to encode back and forth to', '=?utf-8?Q?=C2=A1Hola=2C?= =?utf-8?Q?_se=C3=B1or!?=');
+            expect('På lördag', 'to encode back and forth to', '=?utf-8?Q?P=C3=A5?= =?utf-8?Q?_l=C3=B6rdag?=');
         });
 
         it('should not rely on the space between neighbouring encoded words to be preserved', function () {
@@ -47,19 +47,19 @@ describe('rfc2047', function () {
         });
 
         it('should handle some dreamed up edge cases', function () {
-            expect('lördag', 'to encode back and forth to', '=?iso-8859-1?Q?l=F6rdag?=');
+            expect('lördag', 'to encode back and forth to', '=?utf-8?Q?l=C3=B6rdag?=');
         });
 
         it('should handle a multi-word string where the middle word has to be left unencoded', function () {
-            expect('Så er fødselen i gang', 'to encode back and forth to', '=?iso-8859-1?Q?S=E5?= er =?iso-8859-1?Q?f=F8dselen?= i gang');
+            expect('Så er fødselen i gang', 'to encode back and forth to', '=?utf-8?Q?S=C3=A5?= er =?utf-8?Q?f=C3=B8dselen?= i gang');
         });
 
         it('should place leading quotes correctly', function () {
-            expect('"ÅÄÖ" <sss@example.com>', 'to encode back and forth to', '"=?iso-8859-1?Q?=C5=C4=D6?=" <sss@example.com>');
+            expect('"ÅÄÖ" <sss@example.com>', 'to encode back and forth to', '"=?utf-8?Q?=C3=85=C3=84=C3=96?=" <sss@example.com>');
         });
 
         it('should place trailing quotes correctly', function () {
-            expect('"TEST ÅÄÖ" <sss@example.com>', 'to encode back and forth to', '"TEST =?iso-8859-1?Q?=C5=C4=D6?=" <sss@example.com>');
+            expect('"TEST ÅÄÖ" <sss@example.com>', 'to encode back and forth to', '"TEST =?utf-8?Q?=C3=85=C3=84=C3=96?=" <sss@example.com>');
         });
     });
 
@@ -82,7 +82,7 @@ describe('rfc2047', function () {
             expect(
                 '\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f',
                 'to encode to',
-                '=?iso-8859-1?Q?=00=01=02=03=04=05=06=07?= =?iso-8859-1?Q?=08?=     =?iso-8859-1?Q?_=0E=0F=10=11=12=13=14=15?= =?iso-8859-1?Q?=16=17=18=19=1A=1B=1C=1D?= =?iso-8859-1?Q?=1E=1F?='
+                '=?utf-8?Q?=00=01=02=03=04=05=06=07?= =?utf-8?Q?=08?=     =?utf-8?Q?_=0E=0F=10=11=12=13=14=15?= =?utf-8?Q?=16=17=18=19=1A=1B=1C=1D?= =?utf-8?Q?=1E=1F?='
             );
         });
 
@@ -95,7 +95,7 @@ describe('rfc2047', function () {
         });
 
         it('should not split a backslash from the doublequote it is escaping', function () {
-            expect('"Öland\\""', 'to encode to', '"=?iso-8859-1?Q?=D6land?=\\""');
+            expect('"Öland\\""', 'to encode to', '"=?utf-8?Q?=C3=96land?=\\""');
         });
     });
 
