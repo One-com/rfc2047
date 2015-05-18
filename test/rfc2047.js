@@ -199,5 +199,9 @@ describe('rfc2047', function () {
         it('should handle bogus encoded words (spotted in the wild)', function () {
             expect('=?utf-8?Q??= <andreas@one.com>', 'to decode to', ' <andreas@one.com>');
         });
+
+        it('should decode a character set not in iconv-lite', function () {
+            expect('=?iso-2022-jp?B?GyRCRnxLXDhsJE4lNSVWJTglJyUvJUghXRsoQnRlc3Q=?=', 'to decode to', '日本語のサブジェクト−test');
+        });
     });
 });
