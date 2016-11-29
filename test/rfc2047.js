@@ -61,6 +61,11 @@ describe('rfc2047', function () {
         it('should place trailing quotes correctly', function () {
             expect('"TEST ÅÄÖ" <sss@example.com>', 'to encode back and forth to', '"TEST =?utf-8?Q?=C3=85=C3=84=C3=96?=" <sss@example.com>');
         });
+
+        // Regression test for #2:
+        it('should handle an emoji test case', function () {
+            expect('{"tags":"","fullName":"😬"}', 'to encode back and forth to', '=?utf-8?Q?{=22tags=22=3A?=""=?utf-8?Q?=2C=22fullNa?= =?utf-8?Q?me=22=3A=22=F0=9F=98=AC=22?=}');
+        });
     });
 
     describe('#encode()', function () {
