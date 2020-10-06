@@ -1,4 +1,3 @@
-/* global describe, it */
 const unexpected = require('unexpected');
 const proxyquire = require('proxyquire');
 
