@@ -19,10 +19,13 @@ describe('rfc2047', () => {
         .addAssertion('to decode to', (expect, subject, value) => {
           expect(rfc2047.decode(subject), 'to equal', value);
         })
-        .addAssertion('to encode back and forth to', (expect, subject, value) => {
-          expect(subject, 'to encode to', value);
-          expect(value, 'to decode to', subject);
-        });
+        .addAssertion(
+          'to encode back and forth to',
+          (expect, subject, value) => {
+            expect(subject, 'to encode to', value);
+            expect(value, 'to decode to', subject);
+          }
+        );
 
       describe('#encode() and #decode()', () => {
         it('should handle the empty string', () => {
