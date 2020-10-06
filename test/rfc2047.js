@@ -66,6 +66,10 @@ describe('rfc2047', function () {
         it('should handle an emoji test case', function () {
             expect('{"tags":"","fullName":"😬"}', 'to encode back and forth to', '=?utf-8?Q?{=22tags=22=3A?=""=?utf-8?Q?=2C=22fullNa?= =?utf-8?Q?me=22=3A=22=F0=9F=98=AC=22?=}');
         });
+
+        it('should handle the replacement character', function () {
+            expect('test_�.docx', 'to encode back and forth to', '=?utf-8?Q?test=5F=EF=BF=BD=2Ed?=ocx');
+        });
     });
 
     describe('#encode()', function () {
