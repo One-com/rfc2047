@@ -1,5 +1,8 @@
 language: node_js
 node_js:
   - "0.10"
-before_install: "npm install -g npm && npm cache clean"
+  - 10
+  - 12
+  - 14
+  - node
 script: "npm run-script travis"
