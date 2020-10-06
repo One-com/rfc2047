@@ -1,6 +1,6 @@
-/*global describe, it*/
-var unexpected = require('unexpected'),
-    rfc2047 = require('../lib/rfc2047');
+/* global describe, it */
+var unexpected = require('unexpected');
+    var rfc2047 = require('../lib/rfc2047');
 
 describe('rfc2047', function () {
     var expect = unexpected.clone().addAssertion('to encode to', function (expect, subject, value) {
