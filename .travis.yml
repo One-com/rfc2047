@@ -4,4 +4,12 @@ node_js:
   - 12
   - 14
   - node
-script: "npm run-script travis"
+
+matrix:
+  include:
+    - name: Lint
+      node_js: 14
+      script: npm run lint
+
+script: npm run test:ci
+after_success: '<coverage/lcov.info ./node_modules/coveralls/bin/coveralls.js'
