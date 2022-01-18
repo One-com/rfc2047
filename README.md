@@ -18,3 +18,8 @@ console.log(
 [![Build Status](https://travis-ci.org/One-com/rfc2047.png)](https://travis-ci.org/One-com/rfc2047)
 [![Coverage Status](https://coveralls.io/repos/One-com/rfc2047/badge.png)](https://coveralls.io/r/One-com/rfc2047)
 [![Dependency Status](https://david-dm.org/One-com/rfc2047.png)](https://david-dm.org/One-com/rfc2047)
+
+## License
+
+The rfc2047 module is licensed under a standard 3-clause BSD license -- see the
+`LICENSE`-file for details.

@@ -27,7 +27,7 @@
     "iconv"
   ],
   "author": "Andreas Lind <andreaslindpetersen@gmail.com>",
-  "license": "BSD",
+  "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/One-com/rfc2047/issues"
   },
