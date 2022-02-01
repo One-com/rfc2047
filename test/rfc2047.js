@@ -55,6 +55,16 @@ for (const environment of ['node', 'browser']) {
             expect(rfc2047.decode(subject), 'to equal', value);
           })
           .addAssertion(
+            'to throw unsupported charset',
+            (expect, subject, value) => {
+              expect(
+                () => rfc2047.decode(subject, { ignoreUnknownCharset: false }),
+                'to throw',
+                new RangeError(`unsupported charset ${value}`)
+              );
+            }
+          )
+          .addAssertion(
             'to encode back and forth to',
             (expect, subject, value) => {
               expect(subject, 'to encode to', value);
@@ -253,6 +263,12 @@ for (const environment of ['node', 'browser']) {
                 'Nathaniel Borenstein <nsb@thumper.bellcore.com> (=?iso-8859-8?b?7eXs+SDv4SDp7Oj08A==?=)',
                 'to decode to',
                 'Nathaniel Borenstein <nsb@thumper.bellcore.com> (םולש ןב ילטפנ)'
+              );
+            } else {
+              expect(
+                'Nathaniel Borenstein <nsb@thumper.bellcore.com> (=?iso-8859-8?b?7eXs+SDv4SDp7Oj08A==?=)',
+                'to throw unsupported charset',
+                'iso-8859-8'
               );
             }
             expect('(=?ISO-8859-1?Q?a?=)', 'to decode to', '(a)');
