@@ -53,7 +53,8 @@
     "iconv-lite": "0.4.5"
   },
   "browser": {
-    "iconv": false
+    "iconv": false,
+    "lib/node-buffer-ops.js": "lib/browser-buffer-ops.js"
   },
   "nyc": {
     "include": [
