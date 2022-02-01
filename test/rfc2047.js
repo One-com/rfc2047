@@ -1,14 +1,47 @@
 const unexpected = require('unexpected');
 const proxyquire = require('proxyquire');
 
+const IconvType = {
+  Unavailable: 0,
+  LiteOnly: 1,
+  Available: 2,
+};
+
+function description(iconvType) {
+  switch (iconvType) {
+    case IconvType.Unavailable:
+      return 'iconv unavailable';
+    case IconvType.LiteOnly:
+      return 'iconv-lite available';
+    case IconvType.Available:
+      return 'iconv available';
+  }
+}
+
 describe('rfc2047', () => {
-  for (const iconvAvailable of [false, true]) {
-    describe(`with iconv ${iconvAvailable ? '' : 'un'}available`, () => {
-      const rfc2047 = iconvAvailable
-        ? require('../lib/rfc2047')
-        : proxyquire('../lib/rfc2047', {
-            iconv: null,
-          });
+  for (const iconvType of [
+    IconvType.Unavailable,
+    IconvType.LiteOnly,
+    IconvType.Available,
+  ]) {
+    describe(`with ${description(iconvType)}`, () => {
+      const requireStubs = {};
+
+      switch (iconvType) {
+        case IconvType.Unavailable:
+          requireStubs['iconv'] = null;
+          requireStubs['iconv-lite'] = null;
+          break;
+        case IconvType.LiteOnly:
+          requireStubs['iconv'] = null;
+          break;
+      }
+
+      const iconvAvailable = iconvType === IconvType.Available;
+      const iconvLiteAvailable =
+        iconvAvailable || iconvType === IconvType.LiteOnly;
+
+      const rfc2047 = proxyquire('../lib/rfc2047', requireStubs);
 
       const expect = unexpected
         .clone()
@@ -212,11 +245,13 @@ describe('rfc2047', () => {
             'to decode to',
             'Patrik Fältström <paf@nada.kth.se>'
           );
-          expect(
-            'Nathaniel Borenstein <nsb@thumper.bellcore.com> (=?iso-8859-8?b?7eXs+SDv4SDp7Oj08A==?=)',
-            'to decode to',
-            'Nathaniel Borenstein <nsb@thumper.bellcore.com> (םולש ןב ילטפנ)'
-          );
+          if (iconvLiteAvailable) {
+            expect(
+              'Nathaniel Borenstein <nsb@thumper.bellcore.com> (=?iso-8859-8?b?7eXs+SDv4SDp7Oj08A==?=)',
+              'to decode to',
+              'Nathaniel Borenstein <nsb@thumper.bellcore.com> (םולש ןב ילטפנ)'
+            );
+          }
           expect('(=?ISO-8859-1?Q?a?=)', 'to decode to', '(a)');
           expect('(=?ISO-8859-1?Q?a?= b)', 'to decode to', '(a b)');
           expect(
@@ -230,11 +265,13 @@ describe('rfc2047', () => {
             '(ab)'
           );
           expect('(=?ISO-8859-1?Q?a_b?=)', 'to decode to', '(a b)');
-          expect(
-            '(=?ISO-8859-1?Q?a?= =?ISO-8859-2?Q?_b?=)',
-            'to decode to',
-            '(a b)'
-          );
+          if (iconvLiteAvailable) {
+            expect(
+              '(=?ISO-8859-1?Q?a?= =?ISO-8859-2?Q?_b?=)',
+              'to decode to',
+              '(a b)'
+            );
+          }
         });
 
         it('should handle subject found in mail with X-Mailer: MailChimp Mailer', () => {
@@ -327,17 +364,21 @@ describe('rfc2047', () => {
           expect(
             '=?ISO-8859-1?B?SWYgeW91IGNhbiByZWFkIHRoaXMgeW8=?==?ISO-8859-2?B?dSB1bmRlcnN0YW5kIHRoZSBleGFtcGxlLg==?==?US-ASCII?Q?.._cool!?=',
             'to decode to',
-            'If you can read this you understand the example... cool!'
+            iconvLiteAvailable
+              ? 'If you can read this you understand the example... cool!'
+              : 'If you can read this yo=?ISO-8859-2?B?dSB1bmRlcnN0YW5kIHRoZSBleGFtcGxlLg==?=.. cool!'
           );
         });
 
-        it('should handle a file name found in a Korean mail', () => {
-          expect(
-            '=?ks_c_5601-1987?B?MTMwMTE3X8HWwvfA5V+1tcDlX7jetLq+8y5wZGY=?=',
-            'to decode to',
-            '130117_주차장_도장_메뉴얼.pdf'
-          );
-        });
+        if (iconvLiteAvailable) {
+          it('should handle a file name found in a Korean mail', () => {
+            expect(
+              '=?ks_c_5601-1987?B?MTMwMTE3X8HWwvfA5V+1tcDlX7jetLq+8y5wZGY=?=',
+              'to decode to',
+              '130117_주차장_도장_메뉴얼.pdf'
+            );
+          });
+        }
 
         it('should handle bogus encoded words (spotted in the wild)', () => {
           expect(
