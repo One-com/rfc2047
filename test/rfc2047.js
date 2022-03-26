@@ -47,6 +47,15 @@ describe('rfc2047', () => {
           );
         });
 
+        // https://github.com/One-com/rfc2047/issues/11
+        it('should handle a string with multiple emojis in a row', () => {
+          expect(
+            'Seven hills😍🦌',
+            'to encode back and forth to',
+            'Seven =?utf-8?Q?hills=F0=9F=98=8D=F0=9F=A6=8C?='
+          );
+        });
+
         it('should handle a multi-word string where the middle word has to be encoded', () => {
           expect(
             'Andreas Lindø <andreas@one.com>',
@@ -121,7 +130,7 @@ describe('rfc2047', () => {
           expect(
             '{"tags":"","fullName":"😬"}',
             'to encode back and forth to',
-            '=?utf-8?Q?{=22tags=22=3A?=""=?utf-8?Q?=2C=22fullNa?= =?utf-8?Q?me=22=3A=22=F0=9F=98=AC=22?=}'
+            '=?utf-8?Q?{=22tags=22=3A?=""=?utf-8?Q?=2C=22fullNa?= =?utf-8?Q?me=22=3A=22=F0=9F=98=AC=22}?='
           );
         });
 
