@@ -64,6 +64,14 @@ describe('rfc2047', () => {
           );
         });
 
+        it('should handle single word encoding, containing one non ASCII-character', () => {
+          expect(
+            'ABCDE-München <abcde-muenchen@example.org>',
+            'to encode back and forth to',
+            '=?utf-8?Q?ABCDE-M=C3=BC?= =?utf-8?Q?nchen?= <abcde-muenchen@example.org>'
+          );
+        });
+
         it('should use an UTF-8 encoded word when a character is not in iso-8859-1', () => {
           expect(
             'Mr. Smiley face aka ☺ <smiley@face.dk>',
@@ -138,7 +146,7 @@ describe('rfc2047', () => {
           expect(
             'test_�.docx',
             'to encode back and forth to',
-            '=?utf-8?Q?test=5F=EF=BF=BD=2Ed?=ocx'
+            '=?utf-8?Q?test=5F=EF=BF=BD=2Ed?= =?utf-8?Q?ocx?='
           );
         });
       });
